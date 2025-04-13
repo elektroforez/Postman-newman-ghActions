@@ -22,7 +22,7 @@ jobs:
           npm i newman-reporter-html
 
       - name: Run local server
-        run: npm run tern-on-api
+        run: npm run tern-on-api &
 
       - name: Run Postman Tests
         run: |
