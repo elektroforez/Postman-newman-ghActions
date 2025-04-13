@@ -1,32 +1,306 @@
 {
 	"info": {
-		"_postman_id": "67d91bc7-aa8b-4727-aad5-9abcb298ed08",
+		"_postman_id": "70a4d608-b644-4eda-8572-4f80aca779c6",
 		"name": "store",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "18317683"
+		"_exporter_id": "5935610"
 	},
 	"item": [
 		{
 			"name": "Products",
 			"item": [
 				{
-					"name": "List products",
+					"name": "CRUD",
+					"item": [
+						{
+							"name": "Create product",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Successful POST request\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is not empty\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.not.be.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate response schema\", function () {\r",
+											"    var schema = JSON.parse(pm.variables.get(\"product_resp_sh\"));\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains the right data\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var requestData = JSON.parse(pm.request.body);\r",
+											"    pm.expect(jsonData.name).to.eql(requestData.name);\r",
+											"    pm.expect(jsonData.price).to.eql(requestData.price);\r",
+											"    pm.expect(jsonData.sku).to.eql(requestData.sku);\r",
+											"    pm.expect(jsonData.description).to.eql(requestData.description);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"orange\",\r\n    \"price\": 8,\r\n    \"sku\": 123321123,\r\n    \"description\": \"wouh\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List products",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Content-Type is present\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is not empty\", function () {\r",
+											"    pm.response.to.have.body;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate response schema\", function () {\r",
+											"    var schema = JSON.parse(pm.variables.get(\"products_resp_sh\"));\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update product",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"     pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is not empty\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.not.be.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate response schema\", function () {\r",
+											"    var schema = JSON.parse(pm.variables.get(\"product_resp_sh\"));\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains the right data\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var requestData = JSON.parse(pm.request.body);\r",
+											"    pm.expect(jsonData.name).to.eql(requestData.name);\r",
+											"    pm.expect(jsonData.price).to.eql(requestData.price);\r",
+											"    pm.expect(jsonData.sku).to.eql(requestData.sku);\r",
+											"    pm.expect(jsonData.description).to.eql(requestData.description);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 4,\r\n    \"name\": \"banana\",\r\n    \"price\": 155,\r\n    \"sku\": 123321123,\r\n    \"description\": \"changed description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove product by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is not empty\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.not.be.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains the right id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var productId = pm.variables.get(\"product_id\");\r",
+											"    pm.expect(jsonData.id).to.equal(parseInt(productId));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate response schema\", function () {\r",
+											"    var schema = JSON.parse(pm.variables.get(\"product_resp_sh\"));\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products/{{product_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"{{product_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get product by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"     pm.response.to.have.status(404);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is empty\", function () {\r",
+											"    pm.response.to.not.have.body;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products/{{product_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"{{product_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Products pagination",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Response time is less than 200ms\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
-									"});\r",
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test(\"Content-Type is present\", function () {\r",
-									"    pm.response.to.have.header(\"Content-Type\");\r",
-									"});"
+									"pm.test('Response contains 2 products', function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length).to.eql(2);\r",
+									"})"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -34,100 +308,198 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/products",
+							"raw": "{{baseUrl}}/products?page=1&pageSize=2",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "2"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get product by ID",
+					"name": "Products sort by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Products are sorted by id', function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    const sorted = [...jsonData].sort((a, b) => a.id == b.id);\r",
+									"\r",
+									"    pm.expect(jsonData).to.eql(sorted);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/products/3",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"products",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create product",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"orange\",\r\n    \"price\": 8,\r\n    \"sku\": 123321123,\r\n    \"description\": \"wouh\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/products",
+							"raw": "{{baseUrl}}/products?sortOrder=ASC&sortKey=id",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"products"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "ASC"
+								},
+								{
+									"key": "sortKey",
+									"value": "id"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Update product",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"id\": 4,\r\n    \"name\": \"banana\",\r\n    \"price\": 155,\r\n    \"sku\": 123321123,\r\n    \"description\": \"changed description\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+					"name": "Products sort by id desc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Products are sorted by id descending', function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    const sorted = [...jsonData].sort((a, b) => a.id > b.id);\r",
+									"\r",
+									"    pm.expect(jsonData).to.eql(sorted);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
-						},
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/products",
+							"raw": "{{baseUrl}}/products?sortOrder=DESC&sortKey=id",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"products"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "DESC"
+								},
+								{
+									"key": "sortKey",
+									"value": "id"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Remove product by ID",
+					"name": "Products sort ABC",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Products are sorted alphabeticaly', () => {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    const sorted = [...jsonData].sort((a, b) => a.name.localeCompare(b.name));\r",
+									"\r",
+									"    pm.expect(jsonData).to.eql(sorted);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
-						"method": "DELETE",
+						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/products/4",
+							"raw": "{{baseUrl}}/products?sortOrder=ASC&sortKey=name",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"products",
-								"4"
+								"products"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "ASC"
+								},
+								{
+									"key": "sortKey",
+									"value": "name"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products sort ABC desc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Products are sorted alphabeticaly descending', () => {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    const sorted = [...jsonData].sort((a, b) => a.name.localeCompare(b.name)).reverse();\r",
+									"\r",
+									"    pm.expect(jsonData).to.eql(sorted);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products?sortOrder=DESC&sortKey=name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "DESC"
+								},
+								{
+									"key": "sortKey",
+									"value": "name"
+								}
 							]
 						}
 					},
@@ -139,105 +511,408 @@
 			"name": "Orders",
 			"item": [
 				{
-					"name": "List orders",
+					"name": "CRUD",
+					"item": [
+						{
+							"name": "Create order",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Successful POST request\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is not empty\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.not.be.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate response schema\", function () {\r",
+											"    var schema = JSON.parse(pm.variables.get(\"order_resp_sh\"));\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains the right data\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var requestData = JSON.parse(pm.request.body);\r",
+											"    pm.expect(jsonData.name).to.eql(requestData.name);\r",
+											"    pm.expect(jsonData.sku).to.eql(requestData.sku);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"order5\",\r\n    \"sku\": 123425445656765\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List orders",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is not empty\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.not.be.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate response schema\", function () {\r",
+											"    var schema = JSON.parse(pm.variables.get(\"orders_resp_sh\"));\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update order",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is not empty\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.not.be.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate response schema\", function () {\r",
+											"    var schema = JSON.parse(pm.variables.get(\"order_resp_sh\"));\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains the right data\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var requestData = JSON.parse(pm.request.body);\r",
+											"    pm.expect(jsonData.name).to.eql(requestData.name);\r",
+											"    pm.expect(jsonData.sku).to.eql(requestData.sku);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 4,\r\n    \"name\": \"order5\",\r\n    \"sku\": 123425445656765\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove order by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is not empty\", function () {\r",
+											"    pm.response.to.be.json;\r",
+											"    pm.response.to.have.body;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains the right id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var orderId = pm.variables.get(\"order_id\");\r",
+											"    pm.expect(jsonData.id).to.equal(parseInt(orderId));\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Validate response schema\", function () {\r",
+											"    var schema = JSON.parse(pm.variables.get(\"order_resp_sh\"));\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.jsonSchema(schema);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/{{order_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										"{{order_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get order by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"     pm.response.to.have.status(404);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is empty\", function () {\r",
+											"    pm.response.to.not.have.body;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Orders pagination",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response contains 2 orders', () => {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length).to.eql(2);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/orders",
+							"raw": "{{baseUrl}}/orders?page=1&pageSize=2",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"orders"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "2"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get order by ID",
+					"name": "Orders sort ABC",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Orders are sorted alphabeticaly', () => {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    const sorted = [...jsonData].sort((a, b) => a.name.localeCompare(b.name));\r",
+									"\r",
+									"    pm.expect(jsonData).to.eql(sorted);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/orders/3",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"orders",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create order",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"order5\",\r\n    \"sku\": 123425445656765\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/orders",
+							"raw": "{{baseUrl}}/orders?sortOrder=ASC&sortKey=name",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"orders"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "ASC"
+								},
+								{
+									"key": "sortKey",
+									"value": "name"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Update order",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"id\": 4,\r\n    \"name\": \"order5\",\r\n    \"sku\": 123425445656765\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+					"name": "Orders sort ABC desc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Orders are sorted alphabeticaly', () => {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    \r",
+									"    const sorted = [...jsonData].sort((a, b) => {\r",
+									"        const nameComp = a.name.localeCompare(b.name);\r",
+									"        if (nameComp !== 0) return nameComp;\r",
+									"        return a.id - b.id;\r",
+									"}).reverse();\r",
+									"\r",
+									"    pm.expect(jsonData).to.deep.equal(sorted);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
-						},
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/orders",
+							"raw": "{{baseUrl}}/orders?sortOrder=DESC&sortKey=name",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"orders"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Remove order by ID",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/orders/4",
-							"host": [
-								"{{baseUrl}}"
 							],
-							"path": [
-								"orders",
-								"4"
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "DESC"
+								},
+								{
+									"key": "sortKey",
+									"value": "name"
+								}
 							]
 						}
 					},
@@ -249,105 +924,420 @@
 			"name": "Users",
 			"item": [
 				{
-					"name": "List users",
+					"name": "CRUD",
+					"item": [
+						{
+							"name": "Create user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Successful POST request\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is not empty\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.not.be.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate response schema\", function () {\r",
+											"    var schema = JSON.parse(pm.variables.get(\"user_resp_sh\"));\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains the right data\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var requestData = JSON.parse(pm.request.body);\r",
+											"    pm.expect(jsonData.firstName).to.eql(requestData.firstName);\r",
+											"    pm.expect(jsonData.lastName).to.eql(requestData.lastName);\r",
+											"    pm.expect(jsonData.email).to.eql(requestData.email);\r",
+											"    pm.expect(jsonData.dateOfBirth).to.eql(requestData.dateOfBirth);    \r",
+											"    pm.expect(jsonData.emailVerified).to.eql(requestData.emailVerified);\r",
+											"    pm.expect(jsonData.signUpDate).to.eql(requestData.signUpDate);\r",
+											"    pm.expect(jsonData.status).to.eql(requestData.status);\r",
+											"    pm.expect(jsonData.level).to.eql(requestData.level);    \r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Dream\",\r\n    \"lastName\": \"Real\",\r\n    \"email\": \"dream.real@gmail.com\",\r\n    \"dateOfBirth\": \"2001-10-99\",\r\n    \"emailVerified\": true,\r\n    \"signUpDate\": \"2019-08-24\",\r\n    \"status\": \"active\",\r\n    \"level\": \"lord\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is not empty\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.not.be.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate response schema\", function () {\r",
+											"    var schema = JSON.parse(pm.variables.get(\"users_resp_sh\"));\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Successful POST request\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is not empty\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.not.be.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate response schema\", function () {\r",
+											"    var schema = JSON.parse(pm.variables.get(\"user_resp_sh\"));\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains the right data\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var requestData = JSON.parse(pm.request.body);\r",
+											"    pm.expect(jsonData.firstName).to.eql(requestData.firstName);\r",
+											"    pm.expect(jsonData.lastName).to.eql(requestData.lastName);\r",
+											"    pm.expect(jsonData.email).to.eql(requestData.email);\r",
+											"    pm.expect(jsonData.dateOfBirth).to.eql(requestData.dateOfBirth);    \r",
+											"    pm.expect(jsonData.emailVerified).to.eql(requestData.emailVerified);\r",
+											"    pm.expect(jsonData.signUpDate).to.eql(requestData.signUpDate);\r",
+											"    pm.expect(jsonData.status).to.eql(requestData.status);\r",
+											"    pm.expect(jsonData.level).to.eql(requestData.level);    \r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Ilon\",\r\n    \"lastName\": \"Mask\",\r\n    \"email\": \"ilon.mask@gmail.com\",\r\n    \"dateOfBirth\": \"2001-10-99\",\r\n    \"emailVerified\": true,\r\n    \"signUpDate\": \"2019-08-24\",\r\n    \"status\": \"active\",\r\n    \"level\": \"lord\",\r\n    \"id\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove user by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is not empty\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.not.be.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains the right id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var userId = pm.variables.get(\"user_id\");\r",
+											"    pm.expect(jsonData.id).to.equal(parseInt(userId));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate response schema\", function () {\r",
+											"    var schema = JSON.parse(pm.variables.get(\"user_resp_sh\"));\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users/{{user_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"{{user_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get user by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"     pm.response.to.have.status(404);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is empty\", function () {\r",
+											"    pm.response.to.not.have.body;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users/10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"10"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Users pagination",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response contains 2 users', () => {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length).to.eql(2);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/users",
+							"raw": "{{baseUrl}}/users?page=1&pageSize=2",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "2"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get user by ID",
+					"name": "Users sort ABC",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Users are sorted alphabeticaly', () => {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    \r",
+									"    const sorted = [...jsonData].sort((a, b) => a.firstName.localeCompare(b.firstName));\r",
+									"\r",
+									"    pm.expect(jsonData).to.deep.equal(sorted);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/users/3",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create user",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Dream\",\r\n    \"lastName\": \"Real\",\r\n    \"email\": \"dream.real@gmail.com\",\r\n    \"dateOfBirth\": \"2001-10-99\",\r\n    \"emailVerified\": true,\r\n    \"signUpDate\": \"2019-08-24\",\r\n    \"status\": \"active\",\r\n    \"level\": \"lord\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/users",
+							"raw": "{{baseUrl}}/users?sortOrder=ASC&sortKey=firstName",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"users"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "ASC"
+								},
+								{
+									"key": "sortKey",
+									"value": "firstName"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Update user",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Ilon\",\r\n    \"lastName\": \"Mask\",\r\n    \"email\": \"ilon.mask@gmail.com\",\r\n    \"dateOfBirth\": \"2001-10-99\",\r\n    \"emailVerified\": true,\r\n    \"signUpDate\": \"2019-08-24\",\r\n    \"status\": \"active\",\r\n    \"level\": \"lord\",\r\n    \"id\": 10\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+					"name": "Users sort ABC desc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Usera are sorted alphabeticaly descending', () => {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    const sorted = [...jsonData].sort((a, b) => a.firstName.localeCompare(b.firstName,  'en', { sensitivity: 'base' })).reverse();\r",
+									"\r",
+									"    pm.expect(jsonData).to.eql(sorted);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
-						},
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/users",
+							"raw": "{{baseUrl}}/users?sortOrder=DESC&sortKey=firstName",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Remove user by ID",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/users/10",
-							"host": [
-								"{{baseUrl}}"
 							],
-							"path": [
-								"users",
-								"10"
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "DESC"
+								},
+								{
+									"key": "sortKey",
+									"value": "firstName"
+								}
 							]
 						}
 					},

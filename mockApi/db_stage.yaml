@@ -55,15 +55,6 @@ users:
     signUpDate: 2019-08-24
     status: active
     level: consumer
-  - id: 4
-    firstName: Vesta
-    lastName: Smith
-    email: vesta.smith@gmail.com
-    dateOfBirth: 1997-10-31
-    emailVerified: true
-    signUpDate: 2019-08-24
-    status: active
-    level: consumer
   - id: 5
     firstName: Dax
     lastName: Smith
@@ -109,12 +100,12 @@ users:
     signUpDate: 2019-08-24
     status: active
     level: consumer
-  - id: 10
-    firstName: asdasd
-    lastName: asd
-    email: asdasd.smith@gmail.com
-    dateOfBirth: 1997-10-31
-    emailVerified: false
+  - firstName: Ilon
+    lastName: Mask
+    email: ilon.mask@gmail.com
+    dateOfBirth: 2001-10-99
+    emailVerified: true
     signUpDate: 2019-08-24
     status: active
-    level: consumer
+    level: lord
+    id: 10
