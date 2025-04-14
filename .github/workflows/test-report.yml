@@ -18,8 +18,9 @@ jobs:
           node-version: "20"
 
       - name: Install Newman
-        run: npm install -g newman
-          npm i newman-reporter-html
+        run: |
+          npm install -g newman
+          npm install newman-reporter-html
 
       - name: Run local server
         run: npm run tern-on-api &
