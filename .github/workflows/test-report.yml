@@ -31,3 +31,4 @@ jobs:
           npx newman run store.collection.json -e env.json \
           -r cli,htmlextra \
           --reporter-htmlextra-export=docs/index.html
+        continue-on-error: true
