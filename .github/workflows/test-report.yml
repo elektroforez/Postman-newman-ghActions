@@ -20,7 +20,7 @@ jobs:
       - name: Install Newman
         run: |
           npm install -g newman
-          npm install newman-reporter-htmlextra
+          npm install -g newman-reporter-htmlextra
 
       - name: Run local server
         run: npm run tern-on-api &
