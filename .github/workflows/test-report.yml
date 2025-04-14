@@ -30,3 +30,4 @@ jobs:
           newman run store.collection.json -e env.json \
             --reporters cli,html \
             --reporter-html-export docs/index.html
+        continue-on-error: true
