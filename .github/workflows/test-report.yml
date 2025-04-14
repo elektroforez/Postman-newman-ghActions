@@ -29,6 +29,6 @@ jobs:
         run: |
           mkdir -p docs
           newman run store.collection.json -e env.json \
-            -r htmlextra
+            -r htmlextra \
             --reporter-htmlextra-export docs/index.html
         continue-on-error: true
